@@ -1,0 +1,39 @@
+// Template for updating video URLs in exercise_data.dart
+// Replace YOUR_USERNAME and YOUR_REPO with your actual GitHub info
+
+const String baseUrl = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/';
+
+// Push Day Videos
+// ${baseUrl}incline_dumbbell_press.mp4
+// ${baseUrl}flat_dumbbell_press.mp4
+// ${baseUrl}cable_flies.mp4
+// ${baseUrl}lateral_raises.mp4
+// ${baseUrl}tricep_pushdowns.mp4
+// ${baseUrl}overhead_tricep_extension.mp4
+
+// Pull Day Videos
+// ${baseUrl}pull_ups.mp4
+// ${baseUrl}barbell_rows.mp4
+// ${baseUrl}seated_cable_rows.mp4
+// ${baseUrl}face_pulls.mp4
+// ${baseUrl}bicep_curls.mp4
+// ${baseUrl}hammer_curls.mp4
+
+// Leg Day Videos
+// ${baseUrl}squats.mp4
+// ${baseUrl}romanian_deadlifts.mp4
+// ${baseUrl}leg_press.mp4
+// ${baseUrl}walking_lunges.mp4
+// ${baseUrl}leg_curls.mp4
+// ${baseUrl}calf_raises.mp4
+
+// Quick Find & Replace Instructions:
+// 1. Replace YOUR_USERNAME with your GitHub username
+// 2. Replace YOUR_REPO with your repository name
+// 3. If your folder structure is different, update 'videos/' to match
+// 4. Copy the full URLs and paste into exercise_data.dart
+
+// Example:
+// If your GitHub is: https://github.com/johndoe/fitness-app
+// And videos are in: https://github.com/johndoe/fitness-app/tree/main/assets/exercise_videos/
+// Then baseUrl should be: https://raw.githubusercontent.com/johndoe/fitness-app/main/assets/exercise_videos/

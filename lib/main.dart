@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'models/exercise.dart';
+import 'data/exercise_data.dart';
+import 'screens/hybrid_video_player.dart';
 
 void main() {
   runApp(const FitFlowApp());
@@ -11,7 +14,11 @@ class FitFlowApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+        textTheme: ThemeData.dark().textTheme.apply(
+          fontFamily: '.SF Pro Display',
+        ),
+      ),
       home: const HomeScreen(),
     );
   }
@@ -23,34 +30,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF0a0a0a),
       drawer: Drawer(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: const Color(0xFF111111),
         child: ListView(
-          padding: EdgeInsets.zero,
+          padding: const EdgeInsets.only(top: 50),
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.purple.withOpacity(0.3),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.purple,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(Icons.fitness_center, color: Colors.white, size: 24),
-                  ),
-                  const SizedBox(width: 12),
-                  const Text(
-                    "Fit-Flow",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
             DrawerMenuItem(
               icon: Icons.home,
               text: "Home",
@@ -109,8 +94,8 @@ class HomeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              Padding(
+            const SizedBox(height: 20),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Builder(
                 builder: (context) => Row(
@@ -133,30 +118,40 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.purple.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(20),
+                color: Color(0xFF6366F1).withOpacity(0.15),
+                borderRadius: BorderRadius.circular(24),
               ),
-              child: Text(
-                "⚡ The Ultimate Workout Split",
-                style: TextStyle(color: Colors.purpleAccent),
+              child: const Text(
+                "The Ultimate Workout Split",
+                style: TextStyle(
+                  color: Color(0xFF6366F1),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.3,
+                ),
               ),
             ),
             const SizedBox(height: 24),
-            ShaderMask(
-              shaderCallback: (bounds) => const LinearGradient(
-                colors: [Colors.purple, Colors.pink],
-              ).createShader(bounds),
-              child: Text(
-                "Build faster with\n"
-                "Precision",
-                textAlign: TextAlign.center,
+            RichText(
+              textAlign: TextAlign.center,
+              text: const TextSpan(
+                text: "Build faster with\n",
                 style: TextStyle(
                   fontSize: 42,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
+                children: [
+                  TextSpan(
+                    text: "Precision",
+                    style: TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 101, 114, 233),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
@@ -165,15 +160,22 @@ class HomeScreen extends StatelessWidget {
               "using proven methods and optimal recovery\n"
               "principles.",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey, height: 1.5),
+              style: TextStyle(color: Color(0xFFa1a1aa), height: 1.5),
             ),
             const SizedBox(height: 32),
             Container(
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color.fromARGB(255, 20, 15, 20), Color.fromARGB(255, 22, 218, 38)],
+                  colors: [Color(0xFF6366F1), Color(0xFF818CF8)],
                 ),
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF6366F1).withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: Offset(0, 4),
+                  ),
+                ],
               ),
               child: ElevatedButton(
                 onPressed: () {
@@ -186,11 +188,18 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 14,
+                    horizontal: 48,
+                    vertical: 16,
                   ),
                 ),
-                child: const Text("Get Started →"),
+                child: const Text(
+                  "Get Started →",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 40),
@@ -226,7 +235,7 @@ class HomeScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.purpleAccent,
+                            color: Color(0xFF6366F1),
                           ),
                         ),
                         TextSpan(
@@ -234,7 +243,7 @@ class HomeScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.purpleAccent,
+                            color: Color(0xFF6366F1),
                           ),
                         ),
                       ],
@@ -244,27 +253,27 @@ class HomeScreen extends StatelessWidget {
                   Text(
                     "Mix and match exercises to rapidly optimize\nyour training. Everything fits together\nperfectly out of the box.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, height: 1.5),
+                    style: TextStyle(color: Color(0xFFa1a1aa), height: 1.5),
                   ),
                   const SizedBox(height: 30),
                   WorkoutCard(
                     title: "Push Day",
                     description: "Chest, shoulders, and triceps workouts\ndesigned for maximum growth.",
-                    color: Colors.pinkAccent,
+                    color: Color(0xFF6366F1),
                     icon: Icons.fitness_center,
                   ),
                   const SizedBox(height: 16),
                   WorkoutCard(
                     title: "Pull Day",
                     description: "Back and biceps exercises to build a\npowerful upper body.",
-                    color: Colors.blueAccent,
+                    color: Color(0xFF6366F1),
                     icon: Icons.accessibility_new,
                   ),
                   const SizedBox(height: 16),
                   WorkoutCard(
                     title: "Leg Day",
                     description: "Complete lower body routine for strength\nand muscle development.",
-                    color: Colors.greenAccent,
+                    color: Color(0xFF6366F1),
                     icon: Icons.directions_run,
                   ),
                   const SizedBox(height: 40),
@@ -277,10 +286,10 @@ class HomeScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               decoration: BoxDecoration(
-                color: Colors.grey[900],
+                color: Color(0xFF111111),
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
                 ),
               ),
               child: Column(
@@ -290,12 +299,12 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.circular(8),
+                          color: Color(0xFF6366F1),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.fitness_center, color: Colors.white, size: 20),
+                        child: const Icon(Icons.fitness_center, color: Colors.white, size: 22),
                       ),
                       const SizedBox(width: 10),
                       const Text(
@@ -307,7 +316,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   const Text(
                     "Scientifically designed workout routines for\noptimal muscle growth and recovery.",
-                    style: TextStyle(color: Colors.grey, fontSize: 13, height: 1.5),
+                    style: TextStyle(color: Color(0xFFa1a1aa), fontSize: 13, height: 1.5),
                   ),
                   const SizedBox(height: 30),
                   // Connect
@@ -320,31 +329,37 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {},
-                        icon: const Icon(Icons.code, color: Colors.white),
+                        icon: const Icon(Icons.code, color: Colors.white, size: 22),
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.grey[800],
-                          padding: const EdgeInsets.all(10),
+                          backgroundColor: const Color(0xFF18181b),
+                          padding: const EdgeInsets.all(12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
                       IconButton(
                         onPressed: () {},
-                        icon: const Icon(Icons.mail_outline, color: Colors.white),
+                        icon: const Icon(Icons.mail_outline, color: Colors.white, size: 22),
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.grey[800],
-                          padding: const EdgeInsets.all(10),
+                          backgroundColor: const Color(0xFF18181b),
+                          padding: const EdgeInsets.all(12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 30),
-                  const Divider(color: Colors.grey),
+                  const Divider(color: Color(0xFFa1a1aa)),
                   const SizedBox(height: 20),
                   // Copyright
                   const Center(
                     child: Text(
                       "© 2025 FitFlow by Kunal. All rights reserved.",
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                      style: TextStyle(color: Color(0xFFa1a1aa), fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -357,15 +372,15 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {},
                         child: const Text(
                           "Privacy Policy",
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          style: TextStyle(color: Color(0xFFa1a1aa), fontSize: 12),
                         ),
                       ),
-                      const Text("•", style: TextStyle(color: Colors.grey)),
+                      const Text("•", style: TextStyle(color: Color(0xFFa1a1aa))),
                       TextButton(
                         onPressed: () {},
                         child: const Text(
                           "Terms of Service",
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                          style: TextStyle(color: Color(0xFFa1a1aa), fontSize: 12),
                         ),
                       ),
                     ],
@@ -400,9 +415,9 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF0a0a0a),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: const Color(0xFF0a0a0a),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -414,118 +429,112 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-const SizedBox(height: 40),
-RichText(
-  text: const TextSpan(
-    text: "Choose your ",
-    style: TextStyle(
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    ),
-    children: [
-      TextSpan(
-        text: "workout\nsplit",
-        style: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: Colors.purpleAccent,
-        ),
-      ),
-      TextSpan(
-        text: ".",
-        style: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: Colors.purpleAccent,
-        ),
-      ),
-    ],
-  ),
-),
-              const SizedBox(height: 16),
-              const Text(
-                "Select from our scientifically designed\nworkout routines. Each split is optimized for\nmaximum muscle growth and recovery.",
-                style: TextStyle(color: Colors.grey, height: 1.5, fontSize: 14),
-              ),
-              const SizedBox(height: 40),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 40),
+                RichText(
+                  text: const TextSpan(
+                    text: "Choose your ",
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                     children: [
-                      WorkoutOptionCard(
-                        title: "Push Day",
-                        description: "Chest, Shoulders, Triceps",
-                        fullDescription: "Focus on pushing movements that target chest, shoulders, and triceps. Perfect for building upper body pressing strength and muscle mass.",
-                        duration: "45-60\nmin",
-                        difficulty: "Intermediate",
-                        exercises: "6\nexercises",
-                        exerciseList: [
-                          "Incline Dumbbell Press",
-                          "Flat Dumbbell Press",
-                          "Skullcrushers",
-                          "Dumbbell Lat Raises",
-                          "Standing Cable Decline Press",
-                          "Triceps Pushdown",
-                        ],
-                        color: Colors.pinkAccent,
-                        icon: Icons.fitness_center,
-                        isExpanded: expandedIndex == 0,
-                        onTap: () => toggleExpansion(0),
+                      TextSpan(
+                        text: "workout\nsplit",
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF6366F1),
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                      WorkoutOptionCard(
-                        title: "Pull Day",
-                        description: "Back, Biceps",
-                        fullDescription: "Pulling movements that develop back width and thickness while building strong, defined biceps.",
-                        duration: "45-60\nmin",
-                        difficulty: "Intermediate",
-                        exercises: "6\nexercises",
-                        exerciseList: [
-                          "Lat Pulldown",
-                          "Seated Row",
-                          "Barbell Biceps Curl",
-                          "Reverse Lat Pulldown",
-                          "Rope Hammer Curl",
-                          "Reverse Pec Deck Fly",
-                        ],
-                        color: Colors.blueAccent,
-                        icon: Icons.accessibility_new,
-                        isExpanded: expandedIndex == 1,
-                        onTap: () => toggleExpansion(1),
+                      TextSpan(
+                        text: ".",
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF6366F1),
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                      WorkoutOptionCard(
-                        title: "Leg Day",
-                        description: "Quads, Hamstrings, Calves",
-                        fullDescription: "Complete lower body training targeting all major muscle groups for strength, power, and stability.",
-                        duration: "60-75\nmin",
-                        difficulty: "Advanced",
-                        exercises: "6\nexercises",
-                        exerciseList: [
-                          "Squat",
-                          "Hamstring Leg Curl",
-                          "Leg Press",
-                          "Bulgarian Split Squat",
-                          "Leg Extension",
-                          "Calf Raises",
-                        ],
-                        color: Colors.greenAccent,
-                        icon: Icons.directions_run,
-                        isExpanded: expandedIndex == 2,
-                        onTap: () => toggleExpansion(2),
-                      ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                const Text(
+                  "Select from our scientifically designed\nworkout routines. Each split is optimized for\nmaximum muscle growth and recovery.",
+                  style: TextStyle(color: Color(0xFFa1a1aa), height: 1.5, fontSize: 14),
+                ),
+                const SizedBox(height: 40),
+                WorkoutOptionCard(
+                  title: "Push Day",
+                  description: "Chest, Shoulders, Triceps",
+                  fullDescription: "Focus on pushing movements that target chest, shoulders, and triceps. Perfect for building upper body pressing strength and muscle mass.",
+                  duration: "45-60\nmin",
+                  difficulty: "Intermediate",
+                  exercises: "6\nexercises",
+                  exerciseList: [
+                    "Incline Dumbbell Press",
+                    "Flat Dumbbell Press",
+                    "Skullcrushers",
+                    "Dumbbell Lat Raises",
+                    "Standing Cable Decline Press",
+                    "Triceps Pushdown",
+                  ],
+                  color: Color(0xFF6366F1),
+                  icon: Icons.fitness_center,
+                  isExpanded: expandedIndex == 0,
+                  onTap: () => toggleExpansion(0),
+                ),
+                const SizedBox(height: 16),
+                WorkoutOptionCard(
+                  title: "Pull Day",
+                  description: "Back, Biceps",
+                  fullDescription: "Pulling movements that develop back width and thickness while building strong, defined biceps.",
+                  duration: "45-60\nmin",
+                  difficulty: "Intermediate",
+                  exercises: "6\nexercises",
+                  exerciseList: [
+                    "Lat Pulldown",
+                    "Seated Row",
+                    "Barbell Biceps Curl",
+                    "Reverse Lat Pulldown",
+                    "Rope Hammer Curl",
+                    "Reverse Pec Deck Fly",
+                  ],
+                  color: Color(0xFF6366F1),
+                  icon: Icons.accessibility_new,
+                  isExpanded: expandedIndex == 1,
+                  onTap: () => toggleExpansion(1),
+                ),
+                const SizedBox(height: 16),
+                WorkoutOptionCard(
+                  title: "Leg Day",
+                  description: "Quads, Hamstrings, Calves",
+                  fullDescription: "Complete lower body training targeting all major muscle groups for strength, power, and stability.",
+                  duration: "60-75\nmin",
+                  difficulty: "Advanced",
+                  exercises: "6\nexercises",
+                  exerciseList: [
+                    "Squat",
+                    "Hamstring Leg Curl",
+                    "Leg Press",
+                    "Bulgarian Split Squat",
+                    "Leg Extension",
+                    "Calf Raises",
+                  ],
+                  color: Color(0xFF6366F1),
+                  icon: Icons.directions_run,
+                  isExpanded: expandedIndex == 2,
+                  onTap: () => toggleExpansion(2),
+                ),
+                const SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),
@@ -545,7 +554,7 @@ class StatItem extends StatelessWidget {
       children: [
         Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         SizedBox(height: 4),
-        Text(title, style: TextStyle(color: Colors.grey)),
+        Text(title, style: TextStyle(color: Color(0xFFa1a1aa))),
       ],
     );
   }
@@ -569,18 +578,25 @@ class WorkoutCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(16),
+        color: Color(0xFF111111),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
+              color: color.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: color, size: 24),
+            child: Icon(icon, color: color, size: 26),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -599,7 +615,7 @@ class WorkoutCard extends StatelessWidget {
                 Text(
                   description,
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFa1a1aa),
                     fontSize: 13,
                     height: 1.4,
                   ),
@@ -626,7 +642,7 @@ class FooterLink extends StatelessWidget {
         onTap: () {},
         child: Text(
           text,
-          style: const TextStyle(color: Colors.grey, fontSize: 14),
+          style: const TextStyle(color: Color(0xFFa1a1aa), fontSize: 14),
         ),
       ),
     );
@@ -646,16 +662,36 @@ class DrawerMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.white),
-      title: Text(
-        text,
-        style: const TextStyle(color: Colors.white, fontSize: 16),
-      ),
+    return InkWell(
       onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Color(0xFF18181b), width: 1),
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: const Color(0xFF6366F1), size: 20),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
 
 class WorkoutOptionCard extends StatelessWidget {
   final String title;
@@ -691,12 +727,19 @@ class WorkoutOptionCard extends StatelessWidget {
       curve: Curves.easeInOut,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.grey[900],
-            borderRadius: BorderRadius.circular(16),
+            color: Color(0xFF111111),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -704,12 +747,12 @@ class WorkoutOptionCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: color,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Icon(icon, color: Colors.white, size: 24),
+                    child: Icon(icon, color: Colors.white, size: 26),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -728,123 +771,130 @@ class WorkoutOptionCard extends StatelessWidget {
                         Text(
                           description,
                           style: const TextStyle(
-                            color: Colors.grey,
+                            color: Color(0xFFa1a1aa),
                             fontSize: 13,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Icon(
-                    isExpanded ? Icons.keyboard_arrow_up : Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 16,
+                  AnimatedRotation(
+                    turns: isExpanded ? 0.5 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Color(0xFFa1a1aa),
+                      size: 24,
+                    ),
                   ),
                 ],
               ),
-              AnimatedCrossFade(
-                firstChild: const SizedBox.shrink(),
-                secondChild: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    Text(
-                      fullDescription,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        height: 1.5,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildStatChip(Icons.access_time, duration),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildStatChip(Icons.bar_chart, difficulty),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildStatChip(Icons.fitness_center, exercises),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      "Exercise List:",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    ...exerciseList.map((exercise) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Row(
+              AnimatedSize(
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOutCubic,
+                alignment: Alignment.topCenter,
+                child: isExpanded
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.check_circle, color: color, size: 16),
-                          const SizedBox(width: 8),
+                          const SizedBox(height: 16),
                           Text(
-                            exercise,
-                            style: const TextStyle(color: Colors.grey, fontSize: 13),
+                            fullDescription,
+                            style: const TextStyle(
+                              color: Color(0xFFa1a1aa),
+                              fontSize: 13,
+                              height: 1.5,
+                            ),
                           ),
-                        ],
-                      ),
-                    )),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (title == "Push Day") {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const PushDayPage()),
-                            );
-                          } else if (title == "Pull Day") {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const PullDayPage()),
-                            );
-                          } else if (title == "Leg Day") {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const LegDayPage()),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: color,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _buildStatChip(Icons.access_time, duration),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _buildStatChip(Icons.bar_chart, difficulty),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _buildStatChip(Icons.fitness_center, exercises),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Start $title",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                          const SizedBox(height: 20),
+                          const Text(
+                            "Exercise List:",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          ...exerciseList.map((exercise) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.check_circle, color: color, size: 16),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      exercise,
+                                      style: const TextStyle(color: Color(0xFFa1a1aa), fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (title == "Push Day") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const PushDayPage()),
+                                  );
+                                } else if (title == "Pull Day") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const PullDayPage()),
+                                  );
+                                } else if (title == "Leg Day") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const LegDayPage()),
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: color,
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Start $title",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Icon(Icons.arrow_forward, color: Colors.white, size: 18),
+                                ],
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            const Icon(Icons.arrow_forward, color: Colors.white, size: 18),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                duration: const Duration(milliseconds: 300),
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ),
             ],
           ),
@@ -855,20 +905,20 @@ class WorkoutOptionCard extends StatelessWidget {
 
   Widget _buildStatChip(IconData icon, String text) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
-        color: Colors.grey[850],
-        borderRadius: BorderRadius.circular(8),
+        color: Color(0xFF18181b),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.grey, size: 14),
+          Icon(icon, color: Color(0xFFa1a1aa), size: 14),
           const SizedBox(width: 6),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(color: Colors.grey, fontSize: 11),
+              style: const TextStyle(color: Color(0xFFa1a1aa), fontSize: 11),
               textAlign: TextAlign.center,
             ),
           ),
@@ -884,9 +934,9 @@ class PushDayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF0a0a0a),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: const Color(0xFF0a0a0a),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -906,12 +956,19 @@ class PushDayPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 30),
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.pinkAccent,
-                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xFF6366F1),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF6366F1).withOpacity(0.4),
+                        blurRadius: 16,
+                        offset: Offset(0, 6),
+                      ),
+                    ],
                   ),
-                  child: const Icon(Icons.fitness_center, color: Colors.white, size: 40),
+                  child: const Icon(Icons.fitness_center, color: Colors.white, size: 44),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -919,14 +976,14 @@ class PushDayPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.pinkAccent,
+                    color: Color(0xFF6366F1),
                   ),
                 ),
                 const SizedBox(height: 12),
                 const Text(
                   "Chest, Shoulders & Triceps • 6 Exercises •\n45-60 minutes",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style: TextStyle(color: Color(0xFFa1a1aa), fontSize: 14),
                 ),
                 const SizedBox(height: 24),
                 Row(
@@ -940,76 +997,17 @@ class PushDayPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                ExerciseCard(
-                  title: "Incline Dumbbell Press",
-                  description: "Targets upper chest for maximum development.",
-                  sets: "4 sets",
-                  reps: "8-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.inclineDumbbellPress),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Flat Dumbbell Press",
-                  description: "Primary movement for overall chest development.",
-                  sets: "4 sets",
-                  reps: "8-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.flatDumbbellPress),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Skullcrushers",
-                  description: "Isolates triceps for strength and size.",
-                  sets: "3 sets",
-                  reps: "10-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.cableFlies),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Dumbbell Lat Raises",
-                  description: "Builds shoulder width and definition.",
-                  sets: "3 sets",
-                  reps: "12-15 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.lateralRaises),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Standing Cable Decline Press",
-                  description: "Targets lower chest with constant tension.",
-                  sets: "3 sets",
-                  reps: "10-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.tricepPushdowns),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Triceps Pushdown",
-                  description: "Finisher for triceps pump and definition.",
-                  sets: "3 sets",
-                  reps: "12-15 reps",
-                ),
-                const SizedBox(height: 30),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Start Push Day",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Icon(Icons.arrow_forward, color: Colors.white, size: 20),
-                      ],
-                    ),
-                  ),
-                ),
+                ExerciseCard(exercise: ExerciseData.overheadTricepExtension),
                 const SizedBox(height: 40),
               ],
             ),
@@ -1023,17 +1021,17 @@ class PushDayPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.grey[850],
+        color: Color(0xFF18181b),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.grey, size: 14),
+          Icon(icon, color: Color(0xFFa1a1aa), size: 14),
           const SizedBox(width: 6),
           Text(
             text,
-            style: const TextStyle(color: Colors.grey, fontSize: 11),
+            style: const TextStyle(color: Color(0xFFa1a1aa), fontSize: 11),
           ),
         ],
       ),
@@ -1047,9 +1045,9 @@ class PullDayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF0a0a0a),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: const Color(0xFF0a0a0a),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -1069,12 +1067,19 @@ class PullDayPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 30),
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xFF6366F1),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF6366F1).withOpacity(0.4),
+                        blurRadius: 16,
+                        offset: Offset(0, 6),
+                      ),
+                    ],
                   ),
-                  child: const Icon(Icons.accessibility_new, color: Colors.white, size: 40),
+                  child: const Icon(Icons.accessibility_new, color: Colors.white, size: 44),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -1082,14 +1087,14 @@ class PullDayPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: Color(0xFF6366F1),
                   ),
                 ),
                 const SizedBox(height: 12),
                 const Text(
                   "Back, Biceps • 6 Exercises •\n45-60 minutes",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style: TextStyle(color: Color(0xFFa1a1aa), fontSize: 14),
                 ),
                 const SizedBox(height: 24),
                 Row(
@@ -1103,76 +1108,17 @@ class PullDayPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                ExerciseCard(
-                  title: "Lat Pulldown",
-                  description: "Primary back width builder.",
-                  sets: "4 sets",
-                  reps: "8-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.pullUps),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Seated Row",
-                  description: "Builds back thickness and density.",
-                  sets: "4 sets",
-                  reps: "8-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.barbellRows),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Barbell Biceps Curl",
-                  description: "Mass builder for biceps.",
-                  sets: "3 sets",
-                  reps: "10-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.seatedCableRows),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Reverse Lat Pulldown",
-                  description: "Targets lower lats and biceps.",
-                  sets: "3 sets",
-                  reps: "10-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.facePulls),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Rope Hammer Curl",
-                  description: "Develops brachialis and forearms.",
-                  sets: "3 sets",
-                  reps: "12-15 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.bicepCurls),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Reverse Pec Deck Fly",
-                  description: "Isolates rear delts and upper back.",
-                  sets: "3 sets",
-                  reps: "12-15 reps",
-                ),
-                const SizedBox(height: 30),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Start Pull Day",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Icon(Icons.arrow_forward, color: Colors.white, size: 20),
-                      ],
-                    ),
-                  ),
-                ),
+                ExerciseCard(exercise: ExerciseData.hammerCurls),
                 const SizedBox(height: 40),
               ],
             ),
@@ -1186,17 +1132,17 @@ class PullDayPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.grey[850],
+        color: Color(0xFF18181b),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.grey, size: 14),
+          Icon(icon, color: Color(0xFFa1a1aa), size: 14),
           const SizedBox(width: 6),
           Text(
             text,
-            style: const TextStyle(color: Colors.grey, fontSize: 11),
+            style: const TextStyle(color: Color(0xFFa1a1aa), fontSize: 11),
           ),
         ],
       ),
@@ -1210,9 +1156,9 @@ class LegDayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF0a0a0a),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: const Color(0xFF0a0a0a),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -1232,12 +1178,19 @@ class LegDayPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 30),
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.greenAccent,
-                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xFF6366F1),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF6366F1).withOpacity(0.4),
+                        blurRadius: 16,
+                        offset: Offset(0, 6),
+                      ),
+                    ],
                   ),
-                  child: const Icon(Icons.directions_run, color: Colors.black, size: 40),
+                  child: const Icon(Icons.directions_run, color: Colors.white, size: 44),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -1245,14 +1198,14 @@ class LegDayPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.greenAccent,
+                    color: Color(0xFF6366F1),
                   ),
                 ),
                 const SizedBox(height: 12),
                 const Text(
                   "Quads, Hamstrings, Calves • 6 Exercises •\n60-75 minutes",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style: TextStyle(color: Color(0xFFa1a1aa), fontSize: 14),
                 ),
                 const SizedBox(height: 24),
                 Row(
@@ -1266,76 +1219,17 @@ class LegDayPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                ExerciseCard(
-                  title: "Squat",
-                  description: "King of all leg exercises.",
-                  sets: "4 sets",
-                  reps: "6-10 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.squats),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Hamstring Leg Curl",
-                  description: "Isolates hamstrings for growth.",
-                  sets: "4 sets",
-                  reps: "10-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.legCurls),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Leg Press",
-                  description: "High volume quad builder.",
-                  sets: "3 sets",
-                  reps: "12-15 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.legPress),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Bulgarian Split Squat",
-                  description: "Unilateral leg strength and stability.",
-                  sets: "3 sets",
-                  reps: "10-12 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.walkingLunges),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Leg Extension",
-                  description: "Quad isolation and pump.",
-                  sets: "3 sets",
-                  reps: "12-15 reps",
-                ),
+                ExerciseCard(exercise: ExerciseData.romanianDeadlifts),
                 const SizedBox(height: 16),
-                ExerciseCard(
-                  title: "Calf Raises",
-                  description: "Complete calf development.",
-                  sets: "4 sets",
-                  reps: "15-20 reps",
-                ),
-                const SizedBox(height: 30),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.greenAccent,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Start Leg Day",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Icon(Icons.arrow_forward, color: Colors.black, size: 20),
-                      ],
-                    ),
-                  ),
-                ),
+                ExerciseCard(exercise: ExerciseData.calfRaises),
                 const SizedBox(height: 40),
               ],
             ),
@@ -1349,17 +1243,17 @@ class LegDayPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.grey[850],
+        color: Color(0xFF18181b),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.grey, size: 14),
+          Icon(icon, color: Color(0xFFa1a1aa), size: 14),
           const SizedBox(width: 6),
           Text(
             text,
-            style: const TextStyle(color: Colors.grey, fontSize: 11),
+            style: const TextStyle(color: Color(0xFFa1a1aa), fontSize: 11),
           ),
         ],
       ),
@@ -1368,90 +1262,115 @@ class LegDayPage extends StatelessWidget {
 }
 
 class ExerciseCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final String sets;
-  final String reps;
+  final Exercise exercise;
 
   const ExerciseCard({
-    required this.title,
-    required this.description,
-    required this.sets,
-    required this.reps,
+    required this.exercise,
   });
+
+  void _openVideoPlayer(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => HybridVideoPlayer(exercise: exercise),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.grey[800],
-              borderRadius: BorderRadius.circular(10),
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: Color(0xFF111111),
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 8,
+              offset: Offset(0, 3),
             ),
-            child: const Icon(Icons.play_arrow, color: Colors.white, size: 20),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                InkWell(
+                  onTap: () => _openVideoPlayer(context),
+                  borderRadius: BorderRadius.circular(14),
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF18181b),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 22),
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        exercise.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        exercise.description,
+                        style: const TextStyle(
+                          color: Color(0xFFa1a1aa),
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[800],
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        sets,
-                        style: const TextStyle(color: Colors.grey, fontSize: 11),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[800],
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        reps,
-                        style: const TextStyle(color: Colors.grey, fontSize: 11),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
-          ),
-        ],
-      ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF18181b),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    exercise.sets,
+                    style: const TextStyle(
+                      color: Color(0xFFa1a1aa),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF18181b),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    exercise.reps,
+                    style: const TextStyle(
+                      color: Color(0xFFa1a1aa),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
     );
   }
 }
