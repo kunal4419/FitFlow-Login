@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      "Fit-Flow",
+                      "FitFlow",
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 48), // Spacer to center the title
@@ -308,7 +308,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       const Text(
-                        "Fit-Flow",
+                        "FitFlow",
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -424,7 +424,7 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          "Fit-Flow",
+          "FitFlow",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
@@ -943,7 +943,7 @@ class PushDayPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          "Fit-Flow",
+          "FitFlow",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
@@ -1054,7 +1054,7 @@ class PullDayPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          "Fit-Flow",
+          "FitFlow",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
@@ -1165,7 +1165,7 @@ class LegDayPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          "Fit-Flow",
+          "FitFlow",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
