@@ -34,23 +34,23 @@ class ExerciseData {
     localFileName: 'flat_dumbbell_press.mp4',
   );
 
-  static const Exercise cableFlies = Exercise(
-    name: 'Cable Flies',
-    description: 'Isolate and stretch the chest muscles effectively.',
+  static const Exercise skullcrushers = Exercise(
+    name: 'Skullcrushers',
+    description: 'Isolation exercise targeting the triceps.',
     sets: '3 sets',
-    reps: '12-15 reps',
-    targetMuscles: ['Chest', 'Anterior Deltoids'],
+    reps: '10-12 reps',
+    targetMuscles: ['Triceps'],
     exerciseTips: [
-      'Maintain slight elbow bend',
-      'Squeeze at the center',
-      'Control the negative',
+      'Keep elbows stationary',
+      'Lower weight to forehead',
+      'Control the movement',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/cable_flies.mp4',
-    localFileName: 'cable_flies.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/Skullcrushers.mp4',
+    localFileName: 'skullcrushers.mp4',
   );
 
-  static const Exercise lateralRaises = Exercise(
-    name: 'Lateral Raises',
+  static const Exercise dumbbellLateralRaises = Exercise(
+    name: 'Dumbbell Lateral Raises',
     description: 'Build width in your shoulders with this isolation exercise.',
     sets: '4 sets',
     reps: '12-15 reps',
@@ -60,12 +60,27 @@ class ExerciseData {
       'Don\'t swing the weight',
       'Pause at top',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/lateral_raises.mp4',
-    localFileName: 'lateral_raises.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/DumbbellLateralRaises.mp4',
+    localFileName: 'dumbbell_lateral_raises.mp4',
   );
 
-  static const Exercise tricepPushdowns = Exercise(
-    name: 'Tricep Pushdowns',
+  static const Exercise standingCableDeclinePress = Exercise(
+    name: 'Standing Cable Decline Press',
+    description: 'Cable press variation for lower chest development.',
+    sets: '3 sets',
+    reps: '10-12 reps',
+    targetMuscles: ['Lower Chest', 'Triceps'],
+    exerciseTips: [
+      'Press downward at an angle',
+      'Keep core engaged',
+      'Squeeze chest at the bottom',
+    ],
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/StandingCableDeclinePress.mp4',
+    localFileName: 'standing_cable_decline_press.mp4',
+  );
+
+  static const Exercise tricepsPushdown = Exercise(
+    name: 'Triceps Pushdown',
     description: 'Isolate triceps for arm development.',
     sets: '3 sets',
     reps: '12-15 reps',
@@ -75,43 +90,28 @@ class ExerciseData {
       'Full extension at bottom',
       'Squeeze triceps',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/tricep_pushdowns.mp4',
-    localFileName: 'tricep_pushdowns.mp4',
-  );
-
-  static const Exercise overheadTricepExtension = Exercise(
-    name: 'Overhead Tricep Extension',
-    description: 'Target the long head of the triceps.',
-    sets: '3 sets',
-    reps: '10-12 reps',
-    targetMuscles: ['Triceps (Long Head)'],
-    exerciseTips: [
-      'Keep elbows close to head',
-      'Full stretch at bottom',
-      'Control the weight',
-    ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/overhead_tricep_extension.mp4',
-    localFileName: 'overhead_tricep_extension.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/TricepsPushdown.mp4',
+    localFileName: 'triceps_pushdown.mp4',
   );
 
   // PULL DAY EXERCISES
-  static const Exercise pullUps = Exercise(
-    name: 'Pull-Ups',
-    description: 'Compound exercise for back and arm development.',
+  static const Exercise latPulldown = Exercise(
+    name: 'Lat Pulldown',
+    description: 'Build width in your lats with this pulling movement.',
     sets: '4 sets',
-    reps: '8-12 reps',
+    reps: '10-12 reps',
     targetMuscles: ['Lats', 'Biceps', 'Rear Deltoids'],
     exerciseTips: [
-      'Full range of motion',
-      'Pull with elbows',
+      'Pull bar to upper chest',
+      'Lean back slightly',
       'Squeeze shoulder blades together',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/pull_ups.mp4',
-    localFileName: 'pull_ups.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/lat-pulldown.mp4',
+    localFileName: 'lat_pulldown.mp4',
   );
 
-  static const Exercise barbellRows = Exercise(
-    name: 'Barbell Rows',
+  static const Exercise barbellRow = Exercise(
+    name: 'Barbell Row',
     description: 'Build thickness in your back with heavy rows.',
     sets: '4 sets',
     reps: '8-10 reps',
@@ -121,73 +121,73 @@ class ExerciseData {
       'Pull to lower chest',
       'Keep core tight',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/barbell_rows.mp4',
-    localFileName: 'barbell_rows.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/barbell-row.mp4',
+    localFileName: 'barbell_row.mp4',
   );
 
-  static const Exercise seatedCableRows = Exercise(
-    name: 'Seated Cable Rows',
-    description: 'Build back thickness with controlled rowing.',
-    sets: '4 sets',
-    reps: '10-12 reps',
-    targetMuscles: ['Mid Back', 'Lats', 'Biceps'],
-    exerciseTips: [
-      'Keep chest up',
-      'Pull to lower chest',
-      'Squeeze shoulder blades',
-    ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/seated_cable_rows.mp4',
-    localFileName: 'seated_cable_rows.mp4',
-  );
-
-  static const Exercise facePulls = Exercise(
-    name: 'Face Pulls',
-    description: 'Excellent for rear delts and posture.',
-    sets: '3 sets',
-    reps: '15-20 reps',
-    targetMuscles: ['Rear Deltoids', 'Traps', 'Rhomboids'],
-    exerciseTips: [
-      'Pull to face level',
-      'Externally rotate shoulders',
-      'High rep range',
-    ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/face_pulls.mp4',
-    localFileName: 'face_pulls.mp4',
-  );
-
-  static const Exercise bicepCurls = Exercise(
-    name: 'Bicep Curls',
-    description: 'Classic arm builder for bicep development.',
+  static const Exercise barbellBicepsCurl = Exercise(
+    name: 'Barbell Biceps Curl',
+    description: 'Classic barbell curl for bicep development.',
     sets: '4 sets',
     reps: '10-12 reps',
     targetMuscles: ['Biceps'],
     exerciseTips: [
-      'Don\'t swing',
+      'Keep elbows stationary',
+      'Don\'t swing the weight',
       'Full range of motion',
-      'Squeeze at top',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/bicep_curls.mp4',
-    localFileName: 'bicep_curls.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/barbell-biceps-curl.mp4',
+    localFileName: 'barbell_biceps_curl.mp4',
   );
 
-  static const Exercise hammerCurls = Exercise(
-    name: 'Hammer Curls',
-    description: 'Target brachialis and brachioradialis.',
+  static const Exercise straightArmLatPulldown = Exercise(
+    name: 'Straight Arm Lat Pulldown',
+    description: 'Isolate the lats with this straight arm movement.',
+    sets: '3 sets',
+    reps: '12-15 reps',
+    targetMuscles: ['Lats'],
+    exerciseTips: [
+      'Keep arms straight',
+      'Pull down to thighs',
+      'Feel the lat stretch',
+    ],
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/straight-arm-lat-pulldown.mp4',
+    localFileName: 'straight_arm_lat_pulldown.mp4',
+  );
+
+  static const Exercise ropeHammerCurl = Exercise(
+    name: 'Rope Hammer Curl',
+    description: 'Cable variation of hammer curls for forearm and bicep development.',
     sets: '3 sets',
     reps: '12-15 reps',
     targetMuscles: ['Brachialis', 'Brachioradialis', 'Biceps'],
     exerciseTips: [
+      'Use rope attachment',
       'Neutral grip throughout',
       'Control the negative',
-      'Keep elbows stationary',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/hammer_curls.mp4',
-    localFileName: 'hammer_curls.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/rope-hammer-curl.mp4',
+    localFileName: 'rope_hammer_curl.mp4',
+  );
+
+  static const Exercise reversePecDeckFly = Exercise(
+    name: 'Reverse Pec Deck Fly',
+    description: 'Isolate rear deltoids for shoulder development.',
+    sets: '3 sets',
+    reps: '15-20 reps',
+    targetMuscles: ['Rear Deltoids', 'Traps', 'Rhomboids'],
+    exerciseTips: [
+      'Keep chest against pad',
+      'Focus on rear delts',
+      'Squeeze at the back',
+    ],
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/reverse-pec-deck-fly.mp4',
+    localFileName: 'reverse_pec_deck_fly.mp4',
   );
 
   // LEG DAY EXERCISES
-  static const Exercise squats = Exercise(
-    name: 'Squats',
+  static const Exercise squat = Exercise(
+    name: 'Squat',
     description: 'The king of leg exercises for overall development.',
     sets: '4 sets',
     reps: '8-10 reps',
@@ -197,23 +197,23 @@ class ExerciseData {
       'Keep chest up',
       'Drive through heels',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/squats.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/squat.mp4',
     localFileName: 'squats.mp4',
   );
 
-  static const Exercise romanianDeadlifts = Exercise(
-    name: 'Romanian Deadlifts',
-    description: 'Target hamstrings and glutes with this hip hinge movement.',
+  static const Exercise hamstringLegCurl = Exercise(
+    name: 'Hamstring Leg Curl',
+    description: 'Isolate hamstrings with this leg curl variation.',
     sets: '4 sets',
-    reps: '10-12 reps',
-    targetMuscles: ['Hamstrings', 'Glutes', 'Lower Back'],
+    reps: '12-15 reps',
+    targetMuscles: ['Hamstrings'],
     exerciseTips: [
-      'Slight knee bend',
-      'Push hips back',
-      'Feel the stretch',
+      'Full range of motion',
+      'Squeeze at the top',
+      'Control the negative',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/romanian_deadlifts.mp4',
-    localFileName: 'romanian_deadlifts.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/hamstring-leg-curl.mp4',
+    localFileName: 'hamstring_leg_curl.mp4',
   );
 
   static const Exercise legPress = Exercise(
@@ -227,38 +227,38 @@ class ExerciseData {
       'Don\'t lock knees',
       'Keep lower back pressed',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/leg_press.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/leg-press.mp4',
     localFileName: 'leg_press.mp4',
   );
 
-  static const Exercise walkingLunges = Exercise(
-    name: 'Walking Lunges',
-    description: 'Unilateral leg exercise for balance and strength.',
-    sets: '3 sets',
-    reps: '12 reps/leg',
-    targetMuscles: ['Quads', 'Glutes', 'Hamstrings'],
+  static const Exercise dumbbellShoulderPress = Exercise(
+    name: 'Dumbbell Shoulder Press',
+    description: 'Build shoulder strength and mass with dumbbells.',
+    sets: '4 sets',
+    reps: '10-12 reps',
+    targetMuscles: ['Shoulders', 'Triceps'],
     exerciseTips: [
-      'Long stride',
-      'Knee to 90 degrees',
-      'Keep torso upright',
+      'Press overhead fully',
+      'Keep core engaged',
+      'Control the descent',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/walking_lunges.mp4',
-    localFileName: 'walking_lunges.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/DumbbellShoulderPress.mp4',
+    localFileName: 'dumbbell_shoulder_press.mp4',
   );
 
-  static const Exercise legCurls = Exercise(
-    name: 'Leg Curls',
-    description: 'Isolate hamstrings for complete leg development.',
+  static const Exercise legExtension = Exercise(
+    name: 'Leg Extension',
+    description: 'Isolate quadriceps for complete leg development.',
     sets: '3 sets',
     reps: '12-15 reps',
-    targetMuscles: ['Hamstrings'],
+    targetMuscles: ['Quadriceps'],
     exerciseTips: [
-      'Full range of motion',
-      'Squeeze at top',
-      'Control the negative',
+      'Full extension at top',
+      'Control the weight',
+      'Don\'t lock knees',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/leg_curls.mp4',
-    localFileName: 'leg_curls.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/leg-extension.mp4',
+    localFileName: 'leg_extension.mp4',
   );
 
   static const Exercise calfRaises = Exercise(
@@ -272,7 +272,7 @@ class ExerciseData {
       'Pause at top',
       'Slow and controlled',
     ],
-    videoUrl: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/videos/calf_raises.mp4',
+    videoUrl: 'https://github.com/kunal4419/Fit-Flow-Videos/raw/refs/heads/main/calf-raise.mp4',
     localFileName: 'calf_raises.mp4',
   );
 
@@ -280,27 +280,27 @@ class ExerciseData {
   static List<Exercise> getPushExercises() => [
         inclineDumbbellPress,
         flatDumbbellPress,
-        cableFlies,
-        lateralRaises,
-        tricepPushdowns,
-        overheadTricepExtension,
+        skullcrushers,
+        dumbbellLateralRaises,
+        standingCableDeclinePress,
+        tricepsPushdown,
       ];
 
   static List<Exercise> getPullExercises() => [
-        pullUps,
-        barbellRows,
-        seatedCableRows,
-        facePulls,
-        bicepCurls,
-        hammerCurls,
+        latPulldown,
+        barbellRow,
+        barbellBicepsCurl,
+        straightArmLatPulldown,
+        ropeHammerCurl,
+        reversePecDeckFly,
       ];
 
   static List<Exercise> getLegExercises() => [
-        squats,
-        romanianDeadlifts,
+        squat,
+        hamstringLegCurl,
         legPress,
-        walkingLunges,
-        legCurls,
+        dumbbellShoulderPress,
+        legExtension,
         calfRaises,
       ];
 }
