@@ -16,7 +16,7 @@ class WorkoutOptionCard extends StatelessWidget {
   final VoidCallback onTap;
   final bool isExpanded;
 
-  const WorkoutOptionCard({
+  const WorkoutOptionCard({super.key, 
     required this.title,
     required this.description,
     required this.fullDescription,
@@ -52,17 +52,18 @@ class WorkoutOptionCard extends StatelessWidget {
             ],
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
                       color: color,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                    child: Icon(icon, color: Colors.white, size: 26),
+                    child: Icon(icon, color: Colors.white, size: 22),
                   ),
                   const SizedBox(width: 16),
                   Expanded(

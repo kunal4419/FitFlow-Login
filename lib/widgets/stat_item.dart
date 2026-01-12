@@ -4,7 +4,7 @@ class StatItem extends StatelessWidget {
   final String title;
   final String value;
 
-  const StatItem({required this.title, required this.value});
+  const StatItem({super.key, required this.title, required this.value});
 
   @override
   Widget build(BuildContext context) {

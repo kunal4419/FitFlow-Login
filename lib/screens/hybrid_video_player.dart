@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:chewie/chewie.dart';
 import '../models/exercise.dart';
 import '../services/video_cache_service.dart';
 
@@ -10,9 +9,9 @@ class HybridVideoPlayer extends StatefulWidget {
   final Exercise exercise;
 
   const HybridVideoPlayer({
-    Key? key,
+    super.key,
     required this.exercise,
-  }) : super(key: key);
+  });
 
   @override
   State<HybridVideoPlayer> createState() => _HybridVideoPlayerState();
@@ -20,7 +19,6 @@ class HybridVideoPlayer extends StatefulWidget {
 
 class _HybridVideoPlayerState extends State<HybridVideoPlayer> {
   VideoPlayerController? _videoPlayerController;
-  ChewieController? _chewieController;
   final VideoCacheService _cacheService = VideoCacheService();
   
   bool _isLoading = true;
@@ -68,7 +66,7 @@ class _HybridVideoPlayerState extends State<HybridVideoPlayer> {
   /// Initialize video player from local file
   Future<void> _initializeFromFile(File file) async {
     _videoPlayerController = VideoPlayerController.file(file);
-    await _setupChewieController();
+    await _setupVideoController();
   }
 
   /// Initialize video player from network URL
@@ -76,51 +74,15 @@ class _HybridVideoPlayerState extends State<HybridVideoPlayer> {
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse(widget.exercise.videoUrl),
     );
-    await _setupChewieController();
+    await _setupVideoController();
   }
 
-  /// Setup Chewie controller with video player
-  Future<void> _setupChewieController() async {
+  /// Setup video controller
+  Future<void> _setupVideoController() async {
     try {
       await _videoPlayerController!.initialize();
-
-      _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController!,
-        autoPlay: true,
-        looping: true,
-        aspectRatio: _videoPlayerController!.value.aspectRatio,
-        autoInitialize: true,
-        errorBuilder: (context, errorMessage) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.error_outline, color: Colors.red, size: 48),
-                const SizedBox(height: 16),
-                Text(
-                  errorMessage,
-                  style: const TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          );
-        },
-        materialProgressColors: ChewieProgressColors(
-          playedColor: const Color(0xFF6366F1),
-          handleColor: const Color(0xFF6366F1),
-          backgroundColor: Colors.grey.shade800,
-          bufferedColor: Colors.grey.shade700,
-        ),
-        placeholder: Container(
-          color: const Color(0xFF111111),
-          child: const Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
-            ),
-          ),
-        ),
-      );
+      _videoPlayerController!.setLooping(true);
+      _videoPlayerController!.play();
 
       setState(() {
         _isLoading = false;
@@ -173,7 +135,6 @@ class _HybridVideoPlayerState extends State<HybridVideoPlayer> {
   @override
   void dispose() {
     _videoPlayerController?.dispose();
-    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -290,10 +251,54 @@ class _HybridVideoPlayerState extends State<HybridVideoPlayer> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Video Player
-          if (_chewieController != null)
+          if (_videoPlayerController != null && _videoPlayerController!.value.isInitialized)
             AspectRatio(
               aspectRatio: _videoPlayerController!.value.aspectRatio,
-              child: Chewie(controller: _chewieController!),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  VideoPlayer(_videoPlayerController!),
+                  // Play/Pause overlay
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (_videoPlayerController!.value.isPlaying) {
+                          _videoPlayerController!.pause();
+                        } else {
+                          _videoPlayerController!.play();
+                        }
+                      });
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Center(
+                        child: Icon(
+                          _videoPlayerController!.value.isPlaying
+                              ? Icons.pause_circle_outline
+                              : Icons.play_circle_outline,
+                          size: 80,
+                          color: Colors.white.withOpacity(0.7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Progress bar
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: VideoProgressIndicator(
+                      _videoPlayerController!,
+                      allowScrubbing: true,
+                      colors: const VideoProgressColors(
+                        playedColor: Color(0xFF6366F1),
+                        backgroundColor: Colors.grey,
+                        bufferedColor: Color(0xFF444444),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
           // Exercise Information
@@ -417,7 +422,7 @@ class _HybridVideoPlayerState extends State<HybridVideoPlayer> {
                         ],
                       ),
                     );
-                  }).toList(),
+                  }),
                 ],
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../data/exercise_data.dart';
 import '../widgets/exercise_card.dart';
 
@@ -30,19 +31,21 @@ class PullDayPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 30),
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  width: 92,
+                  height: 92,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Color(0xFF6366F1),
+                    color: Color(0xFF3b82f6),
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xFF6366F1).withOpacity(0.4),
+                        color: Color(0xFF3b82f6).withOpacity(0.4),
                         blurRadius: 16,
                         offset: Offset(0, 6),
                       ),
                     ],
                   ),
-                  child: const Icon(Icons.accessibility_new, color: Colors.white, size: 44),
+                  child: const FaIcon(FontAwesomeIcons.personSwimming, color: Colors.white, size: 44),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -50,7 +53,7 @@ class PullDayPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF6366F1),
+                    color: Color(0xFF3b82f6),
                   ),
                 ),
                 const SizedBox(height: 12),

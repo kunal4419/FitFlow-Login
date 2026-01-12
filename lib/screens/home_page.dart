@@ -1,14 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/drawer_menu_item.dart';
 import '../widgets/stat_item.dart';
 import '../widgets/workout_card.dart';
-import 'workouts_page.dart';
 import 'push_day_page.dart';
 import 'pull_day_page.dart';
 import 'leg_day_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _workoutSectionKey = GlobalKey();
+  int? expandedIndex;
+
+  void toggleExpansion(int index) {
+    setState(() {
+      expandedIndex = expandedIndex == index ? null : index;
+    });
+  }
+
+  void _scrollToWorkouts() {
+    final RenderBox? renderBox = _workoutSectionKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final position = renderBox.localToGlobal(Offset.zero).dy;
+      final offset = _scrollController.offset + position - 100;
+      
+      _scrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +60,6 @@ class HomePage extends StatelessWidget {
               text: "Home",
               onTap: () {
                 Navigator.pop(context);
-              },
-            ),
-            DrawerMenuItem(
-              icon: Icons.fitness_center,
-              text: "Workouts",
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const WorkoutsPage()),
-                );
               },
             ),
             DrawerMenuItem(
@@ -75,6 +100,7 @@ class HomePage extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
             const SizedBox(height: 20),
@@ -85,14 +111,14 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.menu),
+                      icon: Icon(Icons.menu, color: Colors.white),
                       onPressed: () {
                         Scaffold.of(context).openDrawer();
                       },
                     ),
                     Text(
                       "FitFlow",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     const SizedBox(width: 48), // Spacer to center the title
                   ],
@@ -149,7 +175,7 @@ class HomePage extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF6366F1), Color(0xFF818CF8)],
+                  colors: [Color.fromARGB(255, 101, 103, 233), Color.fromARGB(255, 97, 110, 233)],
                 ),
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
@@ -161,12 +187,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const WorkoutsPage()),
-                  );
-                },
+                onPressed: _scrollToWorkouts,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
@@ -181,6 +202,7 @@ class HomePage extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.2,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -197,8 +219,9 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 80),
             Padding(
+              key: _workoutSectionKey,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -238,28 +261,69 @@ class HomePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Color(0xFFa1a1aa), height: 1.5),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 50),
                   WorkoutCard(
                     title: "Push Day",
-                    description: "Chest, shoulders, and triceps workouts\ndesigned for maximum growth.",
-                    color: Color(0xFF6366F1),
-                    icon: Icons.fitness_center,
+                    description: "Chest + Triceps.",
+                    fullDescription: "Focus on pushing movements that target chest, shoulders, and triceps. Perfect for building upper body pressing strength and muscle mass.",
+                    duration: "45-60\nmin",
+                    difficulty: "Intermediate",
+                    exercises: "6\nexercises",
+                    exerciseList: const [
+                      "Incline Dumbbell Press",
+                      "Flat Dumbbell Press",
+                      "Skullcrushers",
+                      "Dumbbell Lateral Raises",
+                      "Standing Cable Decline Press",
+                      "Triceps Pushdown",
+                    ],
+                    color: Color(0xFFf97316),
+                    icon: FontAwesomeIcons.dumbbell,
+                    isExpanded: expandedIndex == 0,
+                    onTap: () => toggleExpansion(0),
                   ),
                   const SizedBox(height: 16),
                   WorkoutCard(
                     title: "Pull Day",
-                    description: "Back and biceps exercises to build a\npowerful upper body.",
-                    color: Color(0xFF6366F1),
-                    icon: Icons.accessibility_new,
+                    description: "Back + Biceps.",
+                    fullDescription: "Pulling movements that develop back width and thickness while building strong, defined biceps.",
+                    duration: "45-60\nmin",
+                    difficulty: "Intermediate",
+                    exercises: "6\nexercises",
+                    exerciseList: const [
+                      "Lat Pulldown",
+                      "Barbell Row",
+                      "Barbell Biceps Curl",
+                      "Straight Arm Lat Pulldown",
+                      "Rope Hammer Curl",
+                      "Reverse Pec Deck Fly",
+                    ],
+                    color: Color(0xFF3b82f6),
+                    icon: FontAwesomeIcons.personSwimming,
+                    isExpanded: expandedIndex == 1,
+                    onTap: () => toggleExpansion(1),
                   ),
                   const SizedBox(height: 16),
                   WorkoutCard(
                     title: "Leg Day",
-                    description: "Complete lower body routine for strength\nand muscle development.",
-                    color: Color(0xFF6366F1),
-                    icon: Icons.directions_run,
+                    description: "Quads + Hamstrings.",
+                    fullDescription: "Complete lower body training targeting all major muscle groups for strength, power, and stability.",
+                    duration: "60-75\nmin",
+                    difficulty: "Advanced",
+                    exercises: "6\nexercises",
+                    exerciseList: const [
+                      "Squat",
+                      "Hamstring Leg Curl",
+                      "Leg Press",
+                      "Dumbbell Shoulder Press",
+                      "Leg Extension",
+                      "Calf Raises",
+                    ],
+                    color: Color(0xFF10b981),
+                    icon: FontAwesomeIcons.personRunning,
+                    isExpanded: expandedIndex == 2,
+                    onTap: () => toggleExpansion(2),
                   ),
-                  const SizedBox(height: 40),
                 ],
               ),
             ),
@@ -279,22 +343,9 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Brand
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF6366F1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(Icons.fitness_center, color: Colors.white, size: 22),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        "FitFlow",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  const Text(
+                    "FitFlow",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   const Text(
@@ -311,8 +362,13 @@ class HomePage extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.code, color: Colors.white, size: 22),
+                        onPressed: () async {
+                          final Uri url = Uri.parse('https://github.com/kunal4419');
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url, mode: LaunchMode.externalApplication);
+                          }
+                        },
+                        icon: const FaIcon(FontAwesomeIcons.github, color: Colors.white, size: 22),
                         style: IconButton.styleFrom(
                           backgroundColor: const Color(0xFF18181b),
                           padding: const EdgeInsets.all(12),
@@ -323,8 +379,13 @@ class HomePage extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.mail_outline, color: Colors.white, size: 22),
+                        onPressed: () async {
+                          final Uri url = Uri.parse('mailto:patelkunal4419@gmail.com');
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url);
+                          }
+                        },
+                        icon: const FaIcon(FontAwesomeIcons.envelope, color: Colors.white, size: 22),
                         style: IconButton.styleFrom(
                           backgroundColor: const Color(0xFF18181b),
                           padding: const EdgeInsets.all(12),

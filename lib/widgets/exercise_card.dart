@@ -5,7 +5,7 @@ import '../screens/hybrid_video_player.dart';
 class ExerciseCard extends StatelessWidget {
   final Exercise exercise;
 
-  const ExerciseCard({
+  const ExerciseCard({super.key, 
     required this.exercise,
   });
 
