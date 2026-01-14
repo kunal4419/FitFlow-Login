@@ -41,6 +41,7 @@ dependencies:
   http: ^1.2.0
   url_launcher: ^6.2.4
   font_awesome_flutter: ^10.7.0
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -53,15 +54,28 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.10
 
 flutter_launcher_icons:
-  android: "ic_launcher"
+  android: true
   ios: true
-  image_path: "assets/icon.png"
+  image_path: "assets/FitFlow_Icon.png"
   remove_alpha_ios: true
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/icon.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/FitFlow_Icon.png"
   min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#000000"
+  image: assets/FitFlow_Icon.png
+  color_dark: "#000000"
+  image_dark: assets/FitFlow_Icon.png
+  android_12:
+    color: "#000000"
+    image: assets/FitFlow_Icon.png
+  android: true
+  ios: true
+  web: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -77,6 +91,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icon.png
+    - assets/FitFlow_Icon.png
+    - assets/FitFlow_Icon.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
