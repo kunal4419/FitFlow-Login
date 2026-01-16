@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../widgets/drawer_menu_item.dart';
-import '../widgets/stat_item.dart';
+import 'package:provider/provider.dart';
 import '../widgets/workout_card.dart';
-import 'push_day_page.dart';
-import 'pull_day_page.dart';
-import 'leg_day_page.dart';
+import '../auth/auth_controller.dart';
+import 'profile_page.dart';
+import 'auth/login_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,79 +49,76 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0a0a0a),
-      drawer: Drawer(
-        backgroundColor: const Color(0xFF111111),
-        child: ListView(
-          padding: const EdgeInsets.only(top: 50),
-          children: [
-            DrawerMenuItem(
-              icon: Icons.home,
-              text: "Home",
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            DrawerMenuItem(
-              icon: Icons.arrow_upward,
-              text: "Push",
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PushDayPage()),
-                );
-              },
-            ),
-            DrawerMenuItem(
-              icon: Icons.arrow_downward,
-              text: "Pull",
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PullDayPage()),
-                );
-              },
-            ),
-            DrawerMenuItem(
-              icon: Icons.directions_run,
-              text: "Legs",
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LegDayPage()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           controller: _scrollController,
           child: Column(
             children: [
             const SizedBox(height: 20),
+            // Header with FitFlow centered and profile button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Builder(
-                builder: (context) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.menu, color: Colors.white),
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(width: 80), // Spacer for balance
+                  const Text(
+                    "FitFlow",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  SizedBox(
+                    width: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Consumer<AuthController>(
+                          builder: (context, authController, _) {
+                            if (authController.isAuthenticated) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const ProfilePage()),
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: const Color(0xFF6366F1).withOpacity(0.2),
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: Color(0xFF6366F1),
+                                    size: 24,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                                  );
+                                },
+                                style: TextButton.styleFrom(
+                                  foregroundColor: const Color(0xFF6366F1),
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: const Text(
+                                  'Log in',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                    Text(
-                      "FitFlow",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    const SizedBox(width: 48), // Spacer to center the title
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 30),
@@ -207,19 +203,40 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  StatItem(title: "Workout Days", value: "3"),
-                  StatItem(title: "Exercises", value: "20+"),
-                  StatItem(title: "Results", value: "100%"),
-                ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.1),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildStatColumn('3', 'Workout\nDays'),
+                    Container(
+                      width: 1,
+                      height: 40,
+                      color: Colors.white.withOpacity(0.1),
+                    ),
+                    _buildStatColumn('20+', 'Exercises'),
+                    Container(
+                      width: 1,
+                      height: 40,
+                      color: Colors.white.withOpacity(0.1),
+                    ),
+                    _buildStatColumn('100%', 'Results'),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 80),
+            const SizedBox(height: 40),
             Padding(
               key: _workoutSectionKey,
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -436,6 +453,31 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildStatColumn(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.grey[400],
+            height: 1.2,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import '../data/exercise_data.dart';
 import '../widgets/exercise_card.dart';
+import '../auth/auth_controller.dart';
+import 'tracking/active_workout_screen.dart';
+import 'auth/login_screen.dart';
 
 class PushDayPage extends StatelessWidget {
   const PushDayPage({super.key});
@@ -74,6 +78,8 @@ class PushDayPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
+                _StartWorkoutButton(workoutType: 'push'),
+                const SizedBox(height: 16),
                 ExerciseCard(exercise: ExerciseData.inclineDumbbellPress),
                 const SizedBox(height: 16),
                 ExerciseCard(exercise: ExerciseData.flatDumbbellPress),
@@ -111,6 +117,49 @@ class PushDayPage extends StatelessWidget {
             style: const TextStyle(color: Color(0xFFa1a1aa), fontSize: 11),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StartWorkoutButton extends StatelessWidget {
+  final String workoutType;
+  
+  const _StartWorkoutButton({required this.workoutType});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () {
+          final authController = Provider.of<AuthController>(context, listen: false);
+          
+          if (authController.isAuthenticated) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ActiveWorkoutScreen(workoutType: workoutType),
+              ),
+            );
+          } else {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const LoginScreen()),
+            );
+          }
+        },
+        icon: const Icon(Icons.play_arrow),
+        label: const Text(
+          'Start Workout',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          backgroundColor: const Color(0xFFf97316),
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       ),
     );
   }
