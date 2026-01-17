@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../auth/auth_controller.dart';
 import 'auth/login_screen.dart';
+import 'main_navigation.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -179,6 +180,14 @@ class ProfilePage extends StatelessWidget {
                   
                   if (confirm == true) {
                     await authController.signOut();
+                    Future.microtask(() {
+                      if (context.mounted) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (_) => const MainNavigation()),
+                          (route) => false,
+                        );
+                      }
+                    });
                   }
                 },
                 style: ElevatedButton.styleFrom(

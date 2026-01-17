@@ -149,7 +149,7 @@ class _StartWorkoutButton extends StatelessWidget {
         },
         icon: const Icon(Icons.play_arrow),
         label: const Text(
-          'Start Workout',
+          'Start Session',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         style: ElevatedButton.styleFrom(

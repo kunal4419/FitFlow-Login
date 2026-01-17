@@ -18,7 +18,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   late WorkoutRepository _workoutRepository;
   List<WorkoutSession> _sessions = [];
   Map<String, List<ExerciseLog>> _sessionLogs = {};
-  Map<String, PRRecord> _personalRecords = {};
   int _currentStreak = 0;
   
   bool _isLoading = true;
@@ -41,22 +40,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
       // Load workout sessions
       final sessions = await _workoutRepository.getWorkoutSessions(limit: 50);
       
-      // Load all exercise logs for PR calculation
-      final allLogs = <ExerciseLog>[];
       for (final session in sessions) {
         final logs = await _workoutRepository.getExerciseLogsForSession(session.id);
         _sessionLogs[session.id] = logs;
-        allLogs.addAll(logs);
       }
-      
-      // Calculate analytics
-      final prs = Analytics.getPersonalRecords(allLogs);
       final streak = Analytics.calculateStreak(sessions);
 
       if (mounted) {
         setState(() {
           _sessions = sessions;
-          _personalRecords = prs;
           _currentStreak = streak;
           _isLoading = false;
         });
@@ -137,10 +129,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               
                               const Divider(height: 1),
                               
-                              // PRs section
-                              _buildPRsSection(),
-                              
-                              const Divider(height: 1),
+
                               
                               // Session list header
                               const Padding(
@@ -219,51 +208,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  Widget _buildPRsSection() {
-    if (_personalRecords.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return ExpansionTile(
-      title: const Text(
-        'Personal Records',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      leading: const Icon(Icons.emoji_events, color: Colors.amber),
-      children: _personalRecords.entries.map((entry) {
-        final pr = entry.value;
-        return ListTile(
-          title: Text(pr.exerciseName),
-          subtitle: Text(
-            '${pr.weight.toStringAsFixed(1)} kg × ${pr.reps} reps',
-          ),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '${pr.estimatedOneRM.toStringAsFixed(0)} kg',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                '1RM est.',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.grey[400],
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
 
   Widget _buildSessionCard(WorkoutSession session) {
     final logs = _sessionLogs[session.id] ?? [];
@@ -378,23 +322,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               color: Colors.white,
                             ),
                           ),
-                          if (log.rpe != null) ...[
-                            const SizedBox(width: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.orange.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                'RPE ${log.rpe!.toStringAsFixed(0)}',
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                            ),
-                          ],
                         ],
                       ),
                     );

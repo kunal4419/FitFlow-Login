@@ -35,6 +35,8 @@ flutter pub get
 flutter run
 ```
 
+flutter run      --dart-define=SUPABASE_URL=https://ybifciydjqimcxccevad.supabase.co      --dart-define=SUPABASE_ANON_KEY=sb_publishable_mcViYMaZ7sy78GROUs0MAQ_fQclwvDZ
+
 ## Build Instructions
 
 ### Build APK (Release)

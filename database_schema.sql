@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS workout_sessions (
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   workout_type TEXT NOT NULL CHECK (workout_type IN ('push', 'pull', 'legs')),
   duration_seconds INTEGER NOT NULL,
-  total_volume DECIMAL(10, 2) DEFAULT 0,
-  notes TEXT,
   completed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -49,7 +47,6 @@ CREATE TABLE IF NOT EXISTS exercise_logs (
   set_number INTEGER NOT NULL,
   reps INTEGER NOT NULL,
   weight DECIMAL(10, 2) NOT NULL,
-  rpe DECIMAL(3, 1), -- Rate of Perceived Exertion (1-10)
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -123,13 +120,6 @@ CREATE INDEX IF NOT EXISTS idx_bodyweight_logs_logged_at ON bodyweight_logs(logg
 -- Functions for Analytics (Optional)
 -- ============================================
 
--- Function to calculate user's total volume
-CREATE OR REPLACE FUNCTION get_user_total_volume(user_uuid UUID)
-RETURNS DECIMAL AS $$
-  SELECT COALESCE(SUM(total_volume), 0)
-  FROM workout_sessions
-  WHERE user_id = user_uuid;
-$$ LANGUAGE SQL STABLE;
 
 -- Function to calculate estimated 1RM
 CREATE OR REPLACE FUNCTION calculate_1rm(weight DECIMAL, reps INTEGER)

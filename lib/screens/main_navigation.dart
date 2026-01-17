@@ -17,20 +17,28 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomePage(),
-    const ProgressScreen(),
-    const HistoryScreen(),
-    const BodyweightScreen(),
-  ];
+  Widget _getScreen(int index, bool isAuthenticated) {
+    if (index == 0) return const HomePage(); // HomePage is now only used as a tab, not for direct navigation
+    if (!isAuthenticated) {
+      return const _LoginPrompt();
+    }
+    switch (index) {
+      case 1:
+        return const ProgressScreen();
+      case 2:
+        return const HistoryScreen();
+      case 3:
+        return const BodyweightScreen();
+      default:
+        return const HomePage(); // HomePage is now only used as a tab, not for direct navigation
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final authController = Provider.of<AuthController>(context);
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: _getScreen(_currentIndex, authController.isAuthenticated),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -40,49 +48,92 @@ class _MainNavigationState extends State<MainNavigation> {
             ),
           ),
         ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xFF111111),
-          selectedItemColor: const Color(0xFF6366F1),
-          unselectedItemColor: Colors.grey,
-          currentIndex: _currentIndex,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          elevation: 0,
-        onTap: (index) {
-          // Check if user is authenticated for protected screens
-          final authController = Provider.of<AuthController>(context, listen: false);
-          if (index > 0 && !authController.isAuthenticated) {
-            // Show login screen for protected sections
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-            );
-            return;
-          }
+        child: Material(
+          color: const Color(0xFF111111),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavItem(context, 0, Icons.home, 'Home'),
+              _buildNavItem(context, 1, Icons.show_chart, 'Progress'),
+              _buildNavItem(context, 2, Icons.history, 'History'),
+              _buildNavItem(context, 3, Icons.monitor_weight, 'Weight'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
+    final bool isSelected = _currentIndex == index;
+    final color = isSelected ? const Color(0xFF6366F1) : Colors.grey;
+    return Expanded(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        splashColor: Colors.white.withOpacity(0.25),
+        highlightColor: Colors.white.withOpacity(0.08),
+        onTap: () {
           setState(() {
             _currentIndex = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: color),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            label: 'Progress',
+        ),
+      ),
+    );
+  }
+
+}
+
+class _LoginPrompt extends StatelessWidget {
+  const _LoginPrompt();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.lock_outline, size: 64, color: Color(0xFF6366F1)),
+          const SizedBox(height: 24),
+          const Text(
+            'Login to see details',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monitor_weight),
-            label: 'Weight',
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF6366F1),
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text('Login'),
           ),
         ],
-      ),
       ),
     );
   }

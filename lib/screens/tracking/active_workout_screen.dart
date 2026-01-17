@@ -215,7 +215,6 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
               setNumber: i + 1,
               reps: set.reps!,
               weight: set.weight!,
-              rpe: set.rpe,
               createdAt: DateTime.now(),
             ));
           }
@@ -532,11 +531,11 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
   Color _getWorkoutColor(String type) {
     switch (type.toLowerCase()) {
       case 'push':
-        return Colors.orange;
+        return const Color(0xFFf97316);
       case 'pull':
-        return Colors.blue;
+        return const Color(0xFF3b82f6);
       case 'legs':
-        return Colors.green;
+        return const Color(0xFF10b981);
       default:
         return Colors.grey;
     }
@@ -547,13 +546,11 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
 class SetData {
   double? weight;
   int? reps;
-  double? rpe;
   bool completed = false;
 
   SetData({
     this.weight,
     this.reps,
-    this.rpe,
     this.completed = false,
   });
 }

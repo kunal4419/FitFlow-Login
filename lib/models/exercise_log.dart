@@ -1,3 +1,4 @@
+
 class ExerciseLog {
   final String id;
   final String sessionId;
@@ -6,7 +7,6 @@ class ExerciseLog {
   final int setNumber;
   final int reps;
   final double weight;
-  final double? rpe; // Rate of Perceived Exertion (1-10)
   final DateTime createdAt;
 
   ExerciseLog({
@@ -17,7 +17,6 @@ class ExerciseLog {
     required this.setNumber,
     required this.reps,
     required this.weight,
-    this.rpe,
     required this.createdAt,
   });
 
@@ -30,7 +29,6 @@ class ExerciseLog {
       setNumber: json['set_number'] as int,
       reps: json['reps'] as int,
       weight: (json['weight'] as num).toDouble(),
-      rpe: json['rpe'] != null ? (json['rpe'] as num).toDouble() : null,
       createdAt: DateTime.parse(json['created_at'] as String),
     );
   }
@@ -44,7 +42,6 @@ class ExerciseLog {
       'set_number': setNumber,
       'reps': reps,
       'weight': weight,
-      'rpe': rpe,
       'created_at': createdAt.toIso8601String(),
     };
   }
@@ -57,7 +54,6 @@ class ExerciseLog {
       'set_number': setNumber,
       'reps': reps,
       'weight': weight,
-      'rpe': rpe,
     };
   }
 
