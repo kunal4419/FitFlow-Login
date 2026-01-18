@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'config/supabase_config.dart';
 import 'auth/auth_controller.dart';
+import 'controllers/workout_session_controller.dart';
 import 'repositories/auth_repository.dart';
 import 'screens/main_navigation.dart';
 
@@ -21,11 +22,17 @@ void main() async {
     anonKey: SupabaseConfig.supabaseAnonKey,
   );
   
-  runApp(const FitFlowApp());
+  // Create WorkoutSessionController and load saved session
+  final sessionController = WorkoutSessionController();
+  await sessionController.loadSessionFromStorage();
+  
+  runApp(FitFlowApp(sessionController: sessionController));
 }
 
 class FitFlowApp extends StatelessWidget {
-  const FitFlowApp({super.key});
+  final WorkoutSessionController sessionController;
+  
+  const FitFlowApp({super.key, required this.sessionController});
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +92,9 @@ class FitFlowApp extends StatelessWidget {
           create: (_) => AuthController(
             AuthRepository(Supabase.instance.client),
           ),
+        ),
+        ChangeNotifierProvider.value(
+          value: sessionController,
         ),
       ],
       child: MaterialApp(

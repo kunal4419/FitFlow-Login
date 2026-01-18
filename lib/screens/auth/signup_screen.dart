@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../auth/auth_controller.dart';
 import 'login_screen.dart';
-import '../home_page.dart';
+import '../main_navigation.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -45,14 +45,14 @@ class _SignupScreenState extends State<SignupScreen> {
         // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Account created successfully! Please check your email to verify.'),
+            content: Text('Account created successfully! Welcome to FitFlow!'),
             backgroundColor: Colors.green,
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 3),
           ),
         );
         // Navigate to home
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomePage()),
+          MaterialPageRoute(builder: (_) => const MainNavigation()),
         );
       } else {
         // Show error
@@ -142,8 +142,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         textCapitalization: TextCapitalization.words,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          labelText: 'Name',
-                          labelStyle: const TextStyle(color: Color(0xFFa1a1aa)),
+                          hintText: 'Name',
+                          hintStyle: const TextStyle(color: Color(0xFFa1a1aa)),
                           prefixIcon: const Icon(Icons.person, color: Color(0xFFa1a1aa)),
                           filled: true,
                           fillColor: const Color(0xFF18181b),
@@ -165,8 +165,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         keyboardType: TextInputType.emailAddress,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: const TextStyle(color: Color(0xFFa1a1aa)),
+                          hintText: 'Email',
+                          hintStyle: const TextStyle(color: Color(0xFFa1a1aa)),
                           prefixIcon: const Icon(Icons.email, color: Color(0xFFa1a1aa)),
                           filled: true,
                           fillColor: const Color(0xFF18181b),
@@ -191,8 +191,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         obscureText: _obscurePassword,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(color: Color(0xFFa1a1aa)),
+                          hintText: 'Password',
+                          hintStyle: const TextStyle(color: Color(0xFFa1a1aa)),
                           prefixIcon: const Icon(Icons.lock, color: Color(0xFFa1a1aa)),
                           filled: true,
                           fillColor: const Color(0xFF18181b),
@@ -228,8 +228,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         obscureText: _obscureConfirmPassword,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          labelText: 'Confirm Password',
-                          labelStyle: const TextStyle(color: Color(0xFFa1a1aa)),
+                          hintText: 'Confirm Password',
+                          hintStyle: const TextStyle(color: Color(0xFFa1a1aa)),
                           prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFFa1a1aa)),
                           filled: true,
                           fillColor: const Color(0xFF18181b),

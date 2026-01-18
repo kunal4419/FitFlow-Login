@@ -128,8 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.emailAddress,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: const TextStyle(color: Color(0xFFa1a1aa)),
+                          hintText: 'Email',
+                          hintStyle: const TextStyle(color: Color(0xFFa1a1aa)),
                           prefixIcon: const Icon(Icons.email, color: Color(0xFFa1a1aa)),
                           filled: true,
                           fillColor: const Color(0xFF18181b),
@@ -154,8 +154,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscureText: _obscurePassword,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(color: Color(0xFFa1a1aa)),
+                          hintText: 'Password',
+                          hintStyle: const TextStyle(color: Color(0xFFa1a1aa)),
                           prefixIcon: const Icon(Icons.lock, color: Color(0xFFa1a1aa)),
                           filled: true,
                           fillColor: const Color(0xFF18181b),

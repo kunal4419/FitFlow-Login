@@ -7,6 +7,7 @@ import '../repositories/auth_repository.dart';
 class AuthController with ChangeNotifier {
   final AuthRepository _authRepository;
   User? _currentUser;
+  Map<String, dynamic>? _userProfile;
   bool _isLoading = false;
   String? _errorMessage;
 
@@ -16,6 +17,7 @@ class AuthController with ChangeNotifier {
   }
 
   User? get currentUser => _currentUser;
+  Map<String, dynamic>? get userProfile => _userProfile;
   bool get isAuthenticated => _currentUser != null;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
@@ -23,8 +25,21 @@ class AuthController with ChangeNotifier {
   void _listenToAuthChanges() {
     _authRepository.authStateChanges.listen((AuthState data) {
       _currentUser = data.session?.user;
+      if (_currentUser != null) {
+        loadUserProfile();
+      } else {
+        _userProfile = null;
+      }
       notifyListeners();
     });
+  }
+
+  /// Load user profile from user_profiles table
+  Future<void> loadUserProfile() async {
+    if (_currentUser != null) {
+      _userProfile = await _authRepository.getUserProfile(_currentUser!.id);
+      notifyListeners();
+    }
   }
 
   /// Sign up with email and password
@@ -45,6 +60,9 @@ class AuthController with ChangeNotifier {
       );
 
       _currentUser = response.user;
+      if (_currentUser != null) {
+        await loadUserProfile();
+      }
       _isLoading = false;
       notifyListeners();
       return response.user != null;
@@ -77,6 +95,9 @@ class AuthController with ChangeNotifier {
       );
 
       _currentUser = response.user;
+      if (_currentUser != null) {
+        await loadUserProfile();
+      }
       _isLoading = false;
       notifyListeners();
       return response.user != null;
@@ -101,6 +122,7 @@ class AuthController with ChangeNotifier {
 
       await _authRepository.signOut();
       _currentUser = null;
+      _userProfile = null;
       _errorMessage = null;
       _isLoading = false;
       notifyListeners();
@@ -135,6 +157,69 @@ class AuthController with ChangeNotifier {
       return false;
     } catch (e) {
       _errorMessage = 'Failed to send reset email';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Update user name
+  Future<bool> updateUserName(String newName) async {
+    try {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+
+      if (_currentUser == null) {
+        throw Exception('No user logged in');
+      }
+
+      await _authRepository.updateUserName(_currentUser!.id, newName);
+      await loadUserProfile();
+
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } on AuthException catch (e) {
+      _errorMessage = e.message;
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = 'Failed to update name';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Update password with current password verification
+  Future<bool> updatePassword(String currentPassword, String newPassword) async {
+    try {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+
+      if (_currentUser == null) {
+        throw Exception('No user logged in');
+      }
+
+      await _authRepository.updatePassword(
+        _currentUser!.email!,
+        currentPassword,
+        newPassword,
+      );
+
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } on AuthException catch (e) {
+      _errorMessage = e.message;
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString().replaceAll('Exception: ', '');
       _isLoading = false;
       notifyListeners();
       return false;

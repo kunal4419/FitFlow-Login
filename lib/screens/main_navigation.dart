@@ -1,44 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../auth/auth_controller.dart';
 import 'home_page.dart';
-import 'tracking/progress_screen.dart';
+import 'extras_page.dart';
 import 'tracking/history_screen.dart';
 import 'tracking/bodyweight_screen.dart';
-import 'auth/login_screen.dart';
+import '../widgets/live_session_banner.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+  final int initialIndex;
+  
+  const MainNavigation({super.key, this.initialIndex = 0});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _currentIndex = 0;
+  late int _currentIndex;
 
-  Widget _getScreen(int index, bool isAuthenticated) {
-    if (index == 0) return const HomePage(); // HomePage is now only used as a tab, not for direct navigation
-    if (!isAuthenticated) {
-      return const _LoginPrompt();
-    }
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+  }
+
+  Widget _getScreen(int index) {
     switch (index) {
+      case 0:
+        return const HomePage();
       case 1:
-        return const ProgressScreen();
+        return const ExtrasPage();
       case 2:
         return const HistoryScreen();
       case 3:
         return const BodyweightScreen();
       default:
-        return const HomePage(); // HomePage is now only used as a tab, not for direct navigation
+        return const HomePage();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authController = Provider.of<AuthController>(context);
     return Scaffold(
-      body: _getScreen(_currentIndex, authController.isAuthenticated),
+      body: Column(
+        children: [
+          const LiveSessionBanner(),
+          Expanded(
+            child: _getScreen(_currentIndex),
+          ),
+        ],
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -54,7 +64,7 @@ class _MainNavigationState extends State<MainNavigation> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(context, 0, Icons.home, 'Home'),
-              _buildNavItem(context, 1, Icons.show_chart, 'Progress'),
+              _buildNavItem(context, 1, Icons.star, 'Extras'),
               _buildNavItem(context, 2, Icons.history, 'History'),
               _buildNavItem(context, 3, Icons.monitor_weight, 'Weight'),
             ],
@@ -99,42 +109,4 @@ class _MainNavigationState extends State<MainNavigation> {
     );
   }
 
-}
-
-class _LoginPrompt extends StatelessWidget {
-  const _LoginPrompt();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.lock_outline, size: 64, color: Color(0xFF6366F1)),
-          const SizedBox(height: 24),
-          const Text(
-            'Login to see details',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text('Login'),
-          ),
-        ],
-      ),
-    );
-  }
 }
